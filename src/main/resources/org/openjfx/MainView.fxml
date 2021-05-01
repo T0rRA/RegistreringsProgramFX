@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+
+<AnchorPane id="AnchorPane" prefHeight="567.0" prefWidth="667.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.FXMLController">
+   <children>
+      <HBox layoutX="63.0" layoutY="68.0" prefHeight="53.0" prefWidth="541.0">
+         <children>
+            <Button fx:id="VelgKategori" mnemonicParsing="false" prefHeight="38.0" prefWidth="95.0" text="Velg kategori">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="RegistrerProdukt" mnemonicParsing="false" onAction="#RegistrerProdukt" prefHeight="37.0" prefWidth="125.0" text="Registrer et produkt">
+               <HBox.margin>
+                  <Insets left="100.0" right="80.0" />
+               </HBox.margin>
+            </Button>
+            <Button fx:id="RegistrerKategori" mnemonicParsing="false" onAction="#RegistrerKategori" prefHeight="36.0" prefWidth="144.0" text="Registrer en kategori" />
+         </children>
+      </HBox>
+      <ScrollPane layoutX="63.0" layoutY="134.0" prefHeight="367.0" prefWidth="541.0">
+        <content>
+          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="353.0" prefWidth="522.0">
+               <children>
+                  <TableView fx:id="EntireTable" prefHeight="353.0" prefWidth="525.0">
+                    <columns>
+                      <TableColumn fx:id="produktTable" onEditCommit="#TODOMETHOD" prefWidth="126.0" text="Produkt" />
+                      <TableColumn fx:id="kategoriTable" onEditCommit="#TODOMETHOD" prefWidth="129.0" text="Kategori" />
+                        <TableColumn fx:id="beskrivelseTable" onEditCommit="#TODOMETHOD" prefWidth="135.0" text="Beskrivelse" />
+                        <TableColumn fx:id="prisTable" onEditCommit="#TODOMETHOD" prefWidth="134.0" text="Pris" />
+                    </columns>
+                  </TableView>
+               </children>
+            </AnchorPane>
+        </content>
+      </ScrollPane>
+      <Button fx:id="Close" layoutX="600.0" layoutY="14.0" mnemonicParsing="false" onAction="#Close" text="Avslutt" />
+   </children>
+</AnchorPane>
