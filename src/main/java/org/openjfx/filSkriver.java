@@ -6,11 +6,14 @@ package org.openjfx;
 interface FilLeseOppforsel {
     public void skriv();
 }
-
+// Må endre
 //Produkter er lagret som csv
 class CSVStrategy implements FilLeseOppforsel {
-    public void skriv() {
-        //implementer her: metode for å lese csv
+    public void skriv() { // (Produkt produkt, ProduktKategori produktkategori, File file)
+        //implementer her: metode for å skrive til csv
+        final String kommaSeparerer=",";
+
+
 
         System.out.println("Skriver til CSV");
 
@@ -20,7 +23,7 @@ class CSVStrategy implements FilLeseOppforsel {
 //Produktkategori er lagret binært
 class BinaryStrategy implements FilLeseOppforsel {
     public void skriv() {
-        //implementer her metode for å lese binærfil
+        //implementer her metode for å skrive binærfil
 
         System.out.println("Skriver til Binær");
     }
