@@ -1,4 +1,4 @@
-module hellofx {
+module RegistreringsProgramFX {
     requires javafx.controls;
     requires javafx.fxml;
 
