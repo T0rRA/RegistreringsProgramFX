@@ -13,7 +13,7 @@
             <Font size="15.0" />
          </font>
       </Label>
-      <Button fx:id="AvsluttProgramKnapp" layoutX="51.0" layoutY="61.0" mnemonicParsing="false" onAction="#TODOAVSLUTT" prefHeight="25.0" prefWidth="74.0" styleClass="ExitButton" stylesheets="@styles.css" text="Avslutt" />
-      <Button id="CancelExit" fx:id="AvbrytKnapp" layoutX="136.0" layoutY="61.0" mnemonicParsing="false" onAction="#TODOREMOVEMODULA" styleClass="CancelExit" stylesheets="@styles.css" text="Avbryt" />
+      <Button fx:id="AvsluttProgramKnapp" layoutX="51.0" layoutY="61.0" mnemonicParsing="false" onAction="#ExitApplication" prefHeight="25.0" prefWidth="74.0" styleClass="ExitButton" stylesheets="@styles.css" text="Avslutt" />
+      <Button id="CancelExit" fx:id="AvbrytKnapp" layoutX="136.0" layoutY="61.0" mnemonicParsing="false" onAction="#CloseModula" styleClass="CancelExit" stylesheets="@styles.css" text="Avbryt" />
    </children>
 </AnchorPane>
