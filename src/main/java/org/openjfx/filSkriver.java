@@ -6,18 +6,19 @@ package org.openjfx;
 import java.io.*;
 
 interface FilLeseOppforsel {
-    public void skriv(File file, Produkt produkt, ProduktKategori produktKategori) throws IOException;
+    public void skriv(File file, Produkt produkt, ProduktKategori produktKategori) ;
 }
 
 // Må endre
 //Produkter er lagret som csv
 class CSVStrategy implements FilLeseOppforsel {
     //medode som skriver til CSV når CSVStrategy er valgt.
-    public void skriv(File file, Produkt produkt, ProduktKategori produktKategori) throws IOException {
+    public void skriv(File file, Produkt produkt, ProduktKategori produktKategori) {
         //filenotfound, ioexeption
         /*eventuelt:
         ArrayList<Produkt> produktListe
         for (Produkt : produktListe){}*/
+        try{
         BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
         StringBuffer enLinje = new StringBuffer();
         enLinje.append(produkt.getProduktNavn());
@@ -28,21 +29,29 @@ class CSVStrategy implements FilLeseOppforsel {
         bufferedWriter.close();
 
         System.out.println("Skriver til CSV");
+        }catch (FileNotFoundException e){
+            //gjør noe
+            e.printStackTrace();
+        }
+        catch (IOException e){
+            //gjør noe
+            e.printStackTrace();
+        }
 
     }
 }
 
 //Produktkategori er lagret binært
 class BinaryStrategy implements FilLeseOppforsel {
-    @Override
-    public void skriv(File file, Produkt produkt, ProduktKategori produktKategori) throws IOException {
+    public void skriv(File file, Produkt produkt, ProduktKategori produktKategori) {
         try (FileOutputStream fileUt = new FileOutputStream(file);
              ObjectOutputStream objektUt = new ObjectOutputStream(fileUt)) {
             objektUt.writeObject(file);
             objektUt.close();
             System.out.println("Skriver til Binær");
-        } catch (Exception exception) {
-            exception.printStackTrace();
+        } catch (IOException e){
+            //gjør noe
+            e.printStackTrace();
         }
     }
 }
