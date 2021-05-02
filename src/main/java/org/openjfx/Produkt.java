@@ -2,6 +2,11 @@ package org.openjfx;
 
 public class Produkt {
     private String produktNavn, omProdukt;
+    private ProduktKategori produktKategori;
+
+    public ProduktKategori getProduktKategori() { return produktKategori; }
+
+    public void setProduktKategori(ProduktKategori produktKategori) { this.produktKategori = produktKategori; }
 
     public String getProduktNavn() {
         return produktNavn;
