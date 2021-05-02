@@ -20,7 +20,7 @@ public class CloseProgramController {
 
     @FXML
     private void ExitApplication(ActionEvent event){
-
+        System.exit(0);
     }
 
     @FXML

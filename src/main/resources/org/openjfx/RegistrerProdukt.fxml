@@ -10,7 +10,7 @@
 
 <AnchorPane prefHeight="436.0" prefWidth="276.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.controllers.RegistrerProduktController">
     <children>
-        <Button layoutX="211.0" layoutY="20.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="51.0" text="Close" />
+        <Button fx:id="CloseButton" layoutX="211.0" layoutY="20.0" mnemonicParsing="false" onAction="#CloseModula" prefHeight="25.0" prefWidth="51.0" text="Close" />
         <TextField id="ProduktNameField" fx:id="ProduktNavn" layoutX="33.0" layoutY="109.0" prefHeight="34.0" prefWidth="171.0" promptText="John Deere 6155R, Ironside 40-580, Hard Head Ljå" styleClass="NameField" stylesheets="@styles.css" />
         <Button fx:id="RegistrerProdukt" layoutX="33.0" layoutY="369.0" mnemonicParsing="false" onAction="#SubmitProdukt" text="Registrer" />
         <TextArea id="ProduktDescriptionField" fx:id="ProduktBeskrivelse" layoutX="33.0" layoutY="230.0" prefHeight="104.0" prefWidth="171.0" promptText="Traktoren er topmodellen fra..." styleClass="DescriptionField" stylesheets="@styles.css" />
