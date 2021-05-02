@@ -7,11 +7,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="436.0" prefWidth="276.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.RegisterKategori">
+<AnchorPane prefHeight="436.0" prefWidth="276.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.openjfx.controllers.RegistrerKategoriController">
    <children>
       <Button fx:id="CloseButton" layoutX="211.0" layoutY="20.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="51.0" styleClass="CloseButton" stylesheets="@styles.css" text="Close" />
       <TextField id="KategoriNameField" fx:id="KategoriNavn" layoutX="33.0" layoutY="109.0" prefHeight="34.0" prefWidth="171.0" promptText="Traktorer, verktøy, gjødsel..." styleClass="NameField" stylesheets="@styles.css" />
-      <Button fx:id="RegistrerKategori" layoutX="33.0" layoutY="369.0" mnemonicParsing="false" onAction="#TODOMETHOD" text="Registrer" />
+      <Button fx:id="RegistrerKategori" layoutX="33.0" layoutY="369.0" mnemonicParsing="false" onAction="#SubmitKategori" text="Registrer" />
       <TextArea id="KategoriDescriptionField" fx:id="KategoriBeskrivelse" layoutX="33.0" layoutY="187.0" prefHeight="119.0" prefWidth="171.0" promptText="Kjøretøy større enn...." styleClass="DescriptionField" stylesheets="@styles.css" />
       <Label layoutX="33.0" layoutY="83.0" prefHeight="20.0" prefWidth="119.0" styleClass="TitlesRegistration" stylesheets="@styles.css" text="Navn på kategori">
          <font>
