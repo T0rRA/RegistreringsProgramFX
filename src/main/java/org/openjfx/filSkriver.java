@@ -4,6 +4,9 @@ package org.openjfx;
 //Strategy Patter'n brukt
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 interface FilLeseOppforsel {
     public void skriv(File file, Produkt produkt, ProduktKategori produktKategori);
@@ -39,8 +42,15 @@ class CSVStrategy implements FilLeseOppforsel {
 
     @Override
     public <T extends ProduktKategori, Produkt> T les(File file) throws IOException {
-        //TODO: Tor SKRIV FERDIG
-        return null;
+        List<List<String>> records = new ArrayList<>();
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader("csv.csv"))) {
+            String line;
+            while ((line = bufferedReader.readLine()) != null) {
+                String[] values = line.split(";");
+                records.add(Arrays.asList(values));
+            }
+        }
+        return (T)records;
     }
 }
 
