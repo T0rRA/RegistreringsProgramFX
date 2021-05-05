@@ -131,6 +131,7 @@ class BinaryStrategy extends ArrayList<ProduktKategori> implements FilLeseOppfor
 
 abstract class strategiVelger {
     private FilLeseOppforsel filLeseOppforsel;
+    public void leggTil(ProduktKategori produktKategori, Produkt produkt){filLeseOppforsel.leggTil( produktKategori, produkt);}
 
     public strategiVelger(FilLeseOppforsel filLeseOppforsel) {
         this.filLeseOppforsel = filLeseOppforsel;
