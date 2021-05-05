@@ -1,7 +1,10 @@
-package org.openjfx;
+package org.openjfx.controllers;
 
 //Les tilfil
 //Strategy Patter'n brukt
+
+import org.openjfx.Produkt;
+import org.openjfx.ProduktKategori;
 
 import java.io.*;
 

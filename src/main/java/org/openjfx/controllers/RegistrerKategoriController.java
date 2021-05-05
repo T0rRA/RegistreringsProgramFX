@@ -7,18 +7,27 @@ import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
+import org.openjfx.*;
 
+import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class RegistrerKategoriController implements Initializable {
+class kategoriStrategi extends strategiVelger {
+    public kategoriStrategi() {
+        super(new BinaryStrategy());
+    }
+}
+
+public class RegistrerKategoriController implements Initializable, RegistreringsInterface {
 
     @FXML
     Button CloseButton;
     @FXML
-    TextField KategoriNavn;
+    TextField Navn;
     @FXML
-    TextArea KategoriBeskrivelse;
+    TextArea Beskrivelse;
     @FXML
     Button RegistrerKategori;
 
@@ -28,12 +37,29 @@ public class RegistrerKategoriController implements Initializable {
         stage.close();
     }
 
-    @FXML private void SubmitKategori(ActionEvent event){
+    @FXML
+    private void Submit(ActionEvent event){
+        String navn = Navn.getText();
+        String beskrivelse = Beskrivelse.getText();
 
+        ProduktKategori pk = new ProduktKategori(navn, beskrivelse);
+        Produkt etTomtProdukt = new Produkt(null, null, null);
+
+        strategiVelger strat = new kategoriStrategi();
+        File file = new File("Kategori");
+        try {
+            strat.skrivTilFil(file, etTomtProdukt, pk);
+        } catch (IOException e) {
+            e.printStackTrace();
+            //Skriv feilmelding til label
+            return;
+        }
+
+        CloseModula(event);
     }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-
+        //her fyller vi kategori
     }
 }
