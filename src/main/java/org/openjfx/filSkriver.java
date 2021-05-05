@@ -9,17 +9,26 @@ import java.util.Arrays;
 import java.util.List;
 
 interface FilLeseOppforsel {
-    public void skriv(File file, Produkt produkt, ProduktKategori produktKategori);
+    public void leggTil(ProduktKategori produktKategori, Produkt produkt);
+    public void fjern(ProduktKategori produktKategori, Produkt produkt);
+    public void lagre();
+    public void lastInn();
 
-    public <T extends ProduktKategori> T les(File file) throws IOException;
+
 }
 
 // Må endre
 //Produkter er lagret som csv
 class CSVStrategy implements FilLeseOppforsel {
     //medode som skriver til CSV når CSVStrategy er valgt.
-    public void skriv(File file, Produkt produkt, ProduktKategori produktKategori) {
-        try {
+    public void leggTil(ProduktKategori produktKategori, Produkt produkt){//TODO:LEGG TIL
+        }
+    public void fjern(ProduktKategori produktKategori, Produkt produkt){//TODO: LEGG TIL
+         }
+
+
+    public void lagre(){
+    /*    try {
             BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
             StringBuffer enLinje = new StringBuffer();
             enLinje.append(produkt.getProduktNavn());
@@ -37,11 +46,11 @@ class CSVStrategy implements FilLeseOppforsel {
             //gjør noe
             e.printStackTrace();
         }
-
+*/
     }
 
 
-    public <T extends ProduktKategori> T les(File file) throws IOException {
+    public void lastInn()  {
         List<List<String>> utListe = new ArrayList<>();
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader("csv.csv"))) {
             String linje;
@@ -49,38 +58,74 @@ class CSVStrategy implements FilLeseOppforsel {
                 String[] values = linje.split(";");
                 utListe.add(Arrays.asList(values));
             }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        return (T)utListe;
     }
 }
 
 //Produktkategori er lagret binært
-class BinaryStrategy implements FilLeseOppforsel {
-    public void skriv(File file, Produkt produkt, ProduktKategori produktKategori) {
-        try (FileOutputStream fileUt = new FileOutputStream(file);
-             ObjectOutputStream objektUt = new ObjectOutputStream(fileUt)) {
-            objektUt.writeObject(produktKategori);
+class BinaryStrategy extends ArrayList<ProduktKategori> implements FilLeseOppforsel
+{
+    private static final long serialVersionUID = 1L;
+
+    public BinaryStrategy(){}
+
+    //legge til produktKategori
+    public void leggTil(ProduktKategori produktKategori, Produkt produkt)
+    {
+        this.add(produktKategori);
+        lagre();
+    }
+    //fjerne produktkategori
+    public void fjern(ProduktKategori produktKategori, Produkt produkt)
+    {
+        this.remove(produktKategori);
+        lagre();
+    }
+    //Skriver PK til fil
+    public void lagre()
+    {
+        try
+        {
+            FileOutputStream filUt = new FileOutputStream("filnavn.ser");
+            ObjectOutputStream objektUt = new ObjectOutputStream(filUt);
+
+            objektUt.writeObject(this);
+
             objektUt.close();
-            System.out.println("Skriver til Binær");
-        } catch (IOException e) {
-            //gjør noe
-            e.printStackTrace();
+            filUt.close();
+        }
+        catch(IOException i)
+        {
+            i.printStackTrace();
         }
     }
 
-    public <T extends ProduktKategori> T les(File file) throws IOException {
-        try {
-            FileInputStream filInn = new FileInputStream("bin");
-            ObjectInputStream objIn = new ObjectInputStream(filInn);
-            ProduktKategori produktKategori = (ProduktKategori) objIn.readObject();
+    public void lastInn()
+    {
+        try
+        {
+            FileInputStream filInn = new FileInputStream("filnavn.ser");
+            ObjectInputStream objektInn = new ObjectInputStream(filInn);
+            BinaryStrategy tmp = (BinaryStrategy) objektInn.readObject();
 
-            System.out.println("Bin lEST");
-            objIn.close();
-            return (T) produktKategori;
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+            this.clear();
+            this.addAll(tmp);
+
+            objektInn.close();
+            filInn.close();
         }
-        return null;
+        catch(IOException i)
+        {
+            i.printStackTrace();
+            return;
+        }
+        catch(ClassNotFoundException c)
+        {
+            c.printStackTrace();
+            return;
+        }
     }
 }
 
@@ -91,16 +136,16 @@ abstract class strategiVelger {
         this.filLeseOppforsel = filLeseOppforsel;
     }
 
-    public void skrivTilFil(File file, Produkt produkt, ProduktKategori produktKategori) throws IOException {
-        filLeseOppforsel.skriv(file, produkt, produktKategori);
+    public void lastInn() {
+        filLeseOppforsel.lagre();
     }
 
     public void setFilLeseOppforsel(FilLeseOppforsel filType) {
         this.filLeseOppforsel = filType;
     }
 
-    public ProduktKategori lesFraFil(File file) throws IOException {
-        return filLeseOppforsel.les(file);
+    public void lesFraFil() {
+         filLeseOppforsel.lastInn();
     }
 }
 
