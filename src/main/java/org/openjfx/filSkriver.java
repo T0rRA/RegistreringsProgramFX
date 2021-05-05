@@ -11,7 +11,7 @@ import java.util.List;
 interface FilLeseOppforsel {
     public void skriv(File file, Produkt produkt, ProduktKategori produktKategori);
 
-    public <T extends ProduktKategori, Produkt> T les(File file) throws IOException;
+    public <T extends ProduktKategori> T les(File file) throws IOException;
 }
 
 // Må endre
@@ -40,17 +40,17 @@ class CSVStrategy implements FilLeseOppforsel {
 
     }
 
-    @Override
-    public <T extends ProduktKategori, Produkt> T les(File file) throws IOException {
-        List<List<String>> records = new ArrayList<>();
+
+    public <T extends ProduktKategori> T les(File file) throws IOException {
+        List<List<String>> utListe = new ArrayList<>();
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader("csv.csv"))) {
-            String line;
-            while ((line = bufferedReader.readLine()) != null) {
-                String[] values = line.split(";");
-                records.add(Arrays.asList(values));
+            String linje;
+            while ((linje = bufferedReader.readLine()) != null) {
+                String[] values = linje.split(";");
+                utListe.add(Arrays.asList(values));
             }
         }
-        return (T)records;
+        return (T)utListe;
     }
 }
 
@@ -68,7 +68,7 @@ class BinaryStrategy implements FilLeseOppforsel {
         }
     }
 
-    public <T extends ProduktKategori, Produkt> T les(File file) throws IOException {
+    public <T extends ProduktKategori> T les(File file) throws IOException {
         try {
             FileInputStream filInn = new FileInputStream("bin");
             ObjectInputStream objIn = new ObjectInputStream(filInn);
