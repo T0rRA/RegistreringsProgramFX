@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.geometry.Insets?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.openjfx.controllers.KategoriController"
+            prefHeight="400.0" prefWidth="600.0">
+        <children>
+            <HBox layoutX="63.0" layoutY="68.0" prefHeight="53.0" prefWidth="541.0">
+                <children>
+                    <Button fx:id="BackToProduct" mnemonicParsing="false" onAction="#BackToProduct" prefHeight="38.0" prefWidth="95.0" text="Gå tilbake">
+                        <HBox.margin>
+                            <Insets />
+                        </HBox.margin>
+                    </Button>
+                    <Button fx:id="RegistrerProdukt" mnemonicParsing="false" onAction="#OpenRegistrerProdukt" prefHeight="37.0" prefWidth="125.0" text="Registrer et produkt">
+                        <HBox.margin>
+                            <Insets left="100.0" right="80.0" />
+                        </HBox.margin>
+                    </Button>
+                    <Button fx:id="RegistrerKategori" mnemonicParsing="false" onAction="#OpenRegistrerKategori" prefHeight="36.0" prefWidth="144.0" text="Registrer en kategori" />
+                </children>
+            </HBox>
+            <ScrollPane layoutX="63.0" layoutY="134.0" prefHeight="367.0" prefWidth="541.0">
+                <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="353.0" prefWidth="522.0">
+                        <children>
+                            <TableView fx:id="EntireTable" prefHeight="353.0" prefWidth="525.0">
+                                <columns>
+                                    <TableColumn fx:id="kategoriTable" onEditCommit="#EditKategori" prefWidth="144.0" text="Kategori navn" />
+                                    <TableColumn fx:id="beskrivelseTable" onEditCommit="#EditKategori" prefWidth="230.0" text="Beskrivelse" />
+
+                                </columns>
+                            </TableView>
+                        </children>
+                    </AnchorPane>
+                </content>
+            </ScrollPane>
+            <Button fx:id="Close" layoutX="600.0" layoutY="14.0" mnemonicParsing="false" onAction="#OpenCloseModula" text="Avslutt" />
+            <ProgressIndicator layoutX="21.0" layoutY="264.0" progress="0.0" />
+        </children>
+
+</AnchorPane>
