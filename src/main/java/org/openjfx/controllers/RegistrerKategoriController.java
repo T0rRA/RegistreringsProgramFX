@@ -47,13 +47,8 @@ public class RegistrerKategoriController implements Initializable, Registrerings
 
         strategiVelger strat = new kategoriStrategi();
         File file = new File("Kategori");
-        try {
-            strat.leggTil(pk, etTomtProdukt);
-        } catch (IOException e) {
-            e.printStackTrace();
-            //Skriv feilmelding til label
-            return;
-        }
+
+        strat.leggTil(pk, null);
 
         CloseModula(event);
     }
