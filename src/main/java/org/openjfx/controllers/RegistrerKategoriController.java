@@ -38,12 +38,11 @@ public class RegistrerKategoriController implements Initializable, Registrerings
         String beskrivelse = Beskrivelse.getText();
 
         ProduktKategori pk = new ProduktKategori(navn, beskrivelse);
-        Produkt etTomtProdukt = new Produkt(null, null, null);
 
-     //   strategiVelger strat = new kategoriStrategi();
-        File file = new File("Kategori");
-
-      //  strat.leggTil(pk, null);
+        BinaryLesSkriv bls = new BinaryLesSkriv();
+        bls.lastInn();
+        bls.leggTil(pk);
+        bls.lagre();
 
         CloseModula(event);
     }

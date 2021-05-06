@@ -1,14 +1,12 @@
 package org.openjfx.controllers;
 
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
-import javafx.scene.control.ChoiceBox;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 import org.openjfx.Produkt;
 import org.openjfx.ProduktKategori;
@@ -16,6 +14,7 @@ import org.openjfx.ProduktKategori;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.charset.MalformedInputException;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -30,16 +29,33 @@ public class RegistrerProduktController implements  RegistreringsInterface, Init
     @FXML
     Button CloseButton;
     @FXML
+    Label errMessage1;
+
+    @FXML
     private void Submit(ActionEvent event) {
-        String navn = Navn.getText();
-        String beskrivelse = Beskrivelse.getText();
-        ProduktKategori kategori = KategoriDropdown.getValue();
-        String kategoriNavn = kategori.getKategoriNavn();
-        Produkt p = new Produkt(navn, beskrivelse, kategoriNavn);
+        try {
+            String navn = Navn.getText();
+            String beskrivelse = Beskrivelse.getText();
+            ProduktKategori kategori = KategoriDropdown.getValue();
+            String kategoriNavn = kategori.getKategoriNavn();
 
+            if(kategoriNavn.equals(null) || navn.equals(null) || beskrivelse.equals(null)){
+                errMessage1.setText("Felt mangler");
+                return;
+            }
+            Produkt p = new Produkt(navn, beskrivelse, kategoriNavn);
 
-        Stage stage = (Stage) KategoriDropdown.getScene().getWindow();
-        stage.close();
+            CSVLesSkriv csvls = new CSVLesSkriv();
+            List<Produkt> produkter = csvls.lesCSV();
+            produkter.add(p);
+            csvls.skrivTilCSV(produkter);
+
+            Stage stage = (Stage) KategoriDropdown.getScene().getWindow();
+            stage.close();
+        }
+        catch(Exception e){
+
+        }
     }
     @FXML
     private void CloseModula(ActionEvent event){
@@ -49,7 +65,30 @@ public class RegistrerProduktController implements  RegistreringsInterface, Init
 
    @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-      //  strategiVelger strat = new KategoriReaderStrategi();
+        KategoriChoicePopulator kcp = new KategoriChoicePopulator();
+       try {
+           List<ProduktKategori> kategorier = kcp.call();
+           KategoriDropdown.getItems().addAll(kategorier);
+       } catch (Exception e) {
+           e.printStackTrace();
+           return;
+       }
 
+    }
+}
+
+class KategoriChoicePopulator extends Task<List<ProduktKategori>> {
+
+    @Override
+    protected List<ProduktKategori> call() throws Exception {
+        try{
+            BinaryLesSkriv bls = new BinaryLesSkriv();
+            bls.lastInn();
+            Thread.sleep(5000);
+            return bls;
+        }
+        catch (Exception ie){
+            return null;
+        }
     }
 }

@@ -9,6 +9,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.openjfx.Produkt;
@@ -29,6 +30,7 @@ public class MainViewController implements Initializable {
     @FXML private TableColumn<Produkt, String> beskrivelseTable;
     @FXML private Button RegistrerProdukt;
     @FXML private Label errMessage1;
+    @FXML private Label Laster;
 
 
     @FXML
@@ -87,11 +89,20 @@ public class MainViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resources) {
-        /*produktTable.setCellValueFactory(new PropertyValueFactory<Produkt, String>("produktNavn"));
+        produktTable.setCellValueFactory(new PropertyValueFactory<Produkt, String>("produktNavn"));
         beskrivelseTable.setCellValueFactory(new PropertyValueFactory<Produkt, String>("omProdukt"));
         kategoriTable.setCellValueFactory(new PropertyValueFactory<Produkt, ProduktKategori>("produktKategori"));
 
-        EntireTable.getItems().setAll(parseProdukter());*/
+        ProduktPopulator pp = new ProduktPopulator();
+        try {
+            Laster.setText("Laster...");
+            List<Produkt> produkter = pp.call();
+            EntireTable.getItems().setAll(produkter);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Laster.setText("");
+            errMessage1.setText("Klarte ikke finne produkter");
+        }
     }
 
     //Hjelpe metode som åpner en scene som en modula.
@@ -140,23 +151,19 @@ public class MainViewController implements Initializable {
     }
 }
 
-class ProduktPopulator extends Service<List<Produkt>> {
+class ProduktPopulator extends Task<List<Produkt>> {
 
     @Override
-    protected Task<List<Produkt>> createTask() {
-        return new Task<List<Produkt>>(){
-
-            @Override
-            protected List<Produkt> call() throws Exception {
-                try{
-
-                }
-                catch (Exception ie){
-
-                }
-                return null;
-            }
-        };
+    protected List<Produkt> call() throws Exception {
+        try{
+            CSVLesSkriv csvls = new CSVLesSkriv();
+            List<Produkt> produkts = csvls.lesCSV();
+            Thread.sleep(500);
+            return produkts;
+        }
+        catch (Exception ie){
+                    return null;
+        }
     }
 }
 
