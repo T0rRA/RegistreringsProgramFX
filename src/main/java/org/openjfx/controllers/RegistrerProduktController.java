@@ -18,17 +18,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-/*
-class produktStrategi extends strategiVelger {
-    public produktStrategi() {
-        super(new CSVStrategy());
-    }
-}
-class KategoriReaderStrategi extends strategiVelger {
-    public KategoriReaderStrategi() {
-        super(new BinaryStrategy());
-    }
-}
 
 
 public class RegistrerProduktController implements  RegistreringsInterface, Initializable {
@@ -48,16 +37,6 @@ public class RegistrerProduktController implements  RegistreringsInterface, Init
         String kategoriNavn = kategori.getKategoriNavn();
         Produkt p = new Produkt(navn, beskrivelse, kategoriNavn);
 
-        strategiVelger strat = new produktStrategi();
-        File file = new File("Produkter");
-
-        try {
-            strat.leggTil(kategori, p);
-        } catch (Exception e) {
-            e.printStackTrace();
-            //Skriv feilmelding
-            return;
-        }
 
         Stage stage = (Stage) KategoriDropdown.getScene().getWindow();
         stage.close();
@@ -71,11 +50,6 @@ public class RegistrerProduktController implements  RegistreringsInterface, Init
    @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
       //  strategiVelger strat = new KategoriReaderStrategi();
-        try {
-            //list<ProduktKategori> pk = strat.lesFraFil(new File("Kategori.jobj"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
     }
 }
-*/

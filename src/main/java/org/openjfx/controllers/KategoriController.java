@@ -134,8 +134,6 @@ public class KategoriController implements Initializable {
                 @Override
                 protected List<Produkt> call() throws Exception {
                     try{
-                        BinaryStrategy bs = new BinaryStrategy();
-                        bs.lastInn();
 
                     }
                     catch (Exception ie){

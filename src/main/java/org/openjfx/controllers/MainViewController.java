@@ -149,8 +149,6 @@ class ProduktPopulator extends Service<List<Produkt>> {
             @Override
             protected List<Produkt> call() throws Exception {
                 try{
-                    CSVStrategy csvs = new CSVStrategy();
-                    csvs.lastInn();
 
                 }
                 catch (Exception ie){
@@ -162,8 +160,3 @@ class ProduktPopulator extends Service<List<Produkt>> {
     }
 }
 
-class MainViewStrategi extends strategiVelger {
-    public MainViewStrategi() {
-        super(new CSVStrategy());
-    }
-}

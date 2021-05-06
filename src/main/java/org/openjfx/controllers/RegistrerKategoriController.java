@@ -14,11 +14,6 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-/*class kategoriStrategi extends strategiVelger {
-    public kategoriStrategi() {
-        super(new BinaryStrategy());
-    }
-}*/
 
 public class RegistrerKategoriController implements Initializable, RegistreringsInterface {
 
