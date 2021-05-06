@@ -14,11 +14,11 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-class kategoriStrategi extends strategiVelger {
+/*class kategoriStrategi extends strategiVelger {
     public kategoriStrategi() {
         super(new BinaryStrategy());
     }
-}
+}*/
 
 public class RegistrerKategoriController implements Initializable, RegistreringsInterface {
 
@@ -45,10 +45,10 @@ public class RegistrerKategoriController implements Initializable, Registrerings
         ProduktKategori pk = new ProduktKategori(navn, beskrivelse);
         Produkt etTomtProdukt = new Produkt(null, null, null);
 
-        strategiVelger strat = new kategoriStrategi();
+     //   strategiVelger strat = new kategoriStrategi();
         File file = new File("Kategori");
 
-        strat.leggTil(pk, null);
+      //  strat.leggTil(pk, null);
 
         CloseModula(event);
     }
