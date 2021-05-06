@@ -18,18 +18,18 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
-
+/*
 class produktStrategi extends strategiVelger {
     public produktStrategi() {
         super(new CSVStrategy());
     }
 }
-
 class KategoriReaderStrategi extends strategiVelger {
     public KategoriReaderStrategi() {
         super(new BinaryStrategy());
     }
 }
+
 
 public class RegistrerProduktController implements  RegistreringsInterface, Initializable {
     @FXML
@@ -68,13 +68,14 @@ public class RegistrerProduktController implements  RegistreringsInterface, Init
         stage.close();
     }
 
-    @Override
+   @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        strategiVelger strat = new KategoriReaderStrategi();
-        /*try {
+      //  strategiVelger strat = new KategoriReaderStrategi();
+        try {
             //list<ProduktKategori> pk = strat.lesFraFil(new File("Kategori.jobj"));
         } catch (IOException e) {
             e.printStackTrace();
-        }*/
+        }
     }
 }
+*/
