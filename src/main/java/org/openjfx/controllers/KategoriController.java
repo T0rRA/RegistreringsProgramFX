@@ -2,13 +2,15 @@ package org.openjfx.controllers;
 
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.openjfx.Produkt;
@@ -21,27 +23,19 @@ import java.net.URL;
 import java.util.List;
 import java.util.ResourceBundle;
 
-public class MainViewController implements Initializable {
-
-    @FXML private TableView EntireTable;
-    @FXML private TableColumn<Produkt, String> produktTable;
-    @FXML private TableColumn<Produkt, ProduktKategori> kategoriTable;
+public class KategoriController implements Initializable {
+    @FXML
+    private TableView EntireTable;
+    @FXML
+    private TableColumn<Produkt, ProduktKategori> kategoriTable;
     @FXML private TableColumn<Produkt, String> beskrivelseTable;
-    @FXML private Button RegistrerProdukt;
+    @FXML
+    private Button BackToProduct;
     @FXML private Label errMessage1;
 
 
     @FXML
-    private void OpenRegistrerProdukt(ActionEvent event) throws MalformedURLException {
-        try {
-            helpOpenModula("RegistrerProdukt");
-        } catch (MalformedURLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @FXML
-    private void OpenRegistrerKategori(ActionEvent event) throws MalformedURLException {
+    private void OpenRegistrerKategori(){
         try {
             helpOpenModula("RegistrerKategori");
         } catch (MalformedURLException e) {
@@ -49,17 +43,24 @@ public class MainViewController implements Initializable {
             errMessage1.setText("Kan ikke åpne");
         }
     }
-
-    @FXML private void OpenKategoriVisning(ActionEvent event){
+    @FXML
+    private void OpenRegistrerProdukt(){
         try {
-            helpOpenModula("KategoriView");
-        }catch (MalformedURLException e){
+            helpOpenModula("RegistrerProdukt");
+        } catch (MalformedURLException e) {
             e.printStackTrace();
             errMessage1.setText("Kan ikke åpne");
         }
     }
+    @FXML
+    private void EditKategori(){
+        try{
 
-    @FXML private void OpenCloseModula(ActionEvent event) {
+        } catch (Exception e){
+            errMessage1.setText("Kan ikke redigere");
+        }
+    }
+    @FXML private void OpenCloseModula(){
         try {
             helpOpenModula("CloseProgram");
         } catch (MalformedURLException e) {
@@ -67,34 +68,15 @@ public class MainViewController implements Initializable {
             errMessage1.setText("Kan ikke åpne");
         }
     }
-
-    @FXML private void EditProdukt(TableColumn.CellEditEvent<?,?> event){
-        //this is hard
+    @FXML private void BackToProduct(){
         try {
-            Object newVal = event.getNewValue();
-
-            TablePosition<?, ?> pos = event.getTablePosition();
-            int row = pos.getRow();
-            int col = pos.getColumn();
-        } catch (Exception e){
-            errMessage1.setText("Klarer ikke redigere");
+            helpOpenModula("MainView");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
         }
     }
 
-    public void initialize() {
-        // TODO
-    }
 
-    @Override
-    public void initialize(URL url, ResourceBundle resources) {
-        /*produktTable.setCellValueFactory(new PropertyValueFactory<Produkt, String>("produktNavn"));
-        beskrivelseTable.setCellValueFactory(new PropertyValueFactory<Produkt, String>("omProdukt"));
-        kategoriTable.setCellValueFactory(new PropertyValueFactory<Produkt, ProduktKategori>("produktKategori"));
-
-        EntireTable.getItems().setAll(parseProdukter());*/
-    }
-
-    //Hjelpe metode som åpner en scene som en modula.
     private void helpOpenModula(String action) throws MalformedURLException {
         Parent root = null;
         //Path til resources, måtte gjøre på denne måten pga pakke strukturen.
@@ -124,7 +106,7 @@ public class MainViewController implements Initializable {
             case "CloseProgram":
                 title="Er du sikker du vil avslutte?";
                 break;
-            case "KategoriView":
+            case "MainView":
                 title="Registrerings programmet";
                 break;
         }
@@ -133,37 +115,35 @@ public class MainViewController implements Initializable {
         modulaStage.setScene(modulaScene);
 
         //Fryser mainview'et.
-        modulaStage.initOwner(RegistrerProdukt.getScene().getWindow());
+        modulaStage.initOwner(EntireTable.getScene().getWindow());
         modulaStage.initModality(Modality.WINDOW_MODAL);
         //Scene switch here
         modulaStage.show();
     }
-}
-
-class ProduktPopulator extends Service<List<Produkt>> {
-
     @Override
-    protected Task<List<Produkt>> createTask() {
-        return new Task<List<Produkt>>(){
+    public void initialize(URL url, ResourceBundle resourceBundle) {
 
-            @Override
-            protected List<Produkt> call() throws Exception {
-                try{
-                    CSVStrategy csvs = new CSVStrategy();
-                    csvs.lastInn();
-
-                }
-                catch (Exception ie){
-
-                }
-                return null;
-            }
-        };
     }
-}
 
-class MainViewStrategi extends strategiVelger {
-    public MainViewStrategi() {
-        super(new CSVStrategy());
+    class KategoriPopulator extends Service<List<Produkt>> {
+
+        @Override
+        protected Task<List<Produkt>> createTask() {
+            return new Task<List<Produkt>>(){
+
+                @Override
+                protected List<Produkt> call() throws Exception {
+                    try{
+                        BinaryStrategy bs = new BinaryStrategy();
+                        bs.lastInn();
+
+                    }
+                    catch (Exception ie){
+
+                    }
+                    return null;
+                }
+            };
+        }
     }
 }

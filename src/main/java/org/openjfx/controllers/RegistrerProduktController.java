@@ -45,14 +45,15 @@ public class RegistrerProduktController implements  RegistreringsInterface, Init
         String navn = Navn.getText();
         String beskrivelse = Beskrivelse.getText();
         ProduktKategori kategori = KategoriDropdown.getValue();
-        Produkt p = new Produkt(navn, beskrivelse, kategori);
+        String kategoriNavn = kategori.getKategoriNavn();
+        Produkt p = new Produkt(navn, beskrivelse, kategoriNavn);
 
         strategiVelger strat = new produktStrategi();
         File file = new File("Produkter");
 
         try {
-            strat.leggTil(file, p, kategori);
-        } catch (IOException e) {
+            strat.leggTil(kategori, p);
+        } catch (Exception e) {
             e.printStackTrace();
             //Skriv feilmelding
             return;

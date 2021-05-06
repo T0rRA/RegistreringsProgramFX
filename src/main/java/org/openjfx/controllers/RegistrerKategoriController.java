@@ -46,9 +46,8 @@ public class RegistrerKategoriController implements Initializable, Registrerings
         Produkt etTomtProdukt = new Produkt(null, null, null);
 
         strategiVelger strat = new kategoriStrategi();
-        File file = new File("Kategori");
 
-        strat.leggTil(pk, null);
+        strat.leggTil(pk, etTomtProdukt);
 
         CloseModula(event);
     }
