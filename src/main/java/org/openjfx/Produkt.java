@@ -1,4 +1,5 @@
 package org.openjfx;
+import com.opencsv.bean.CsvBindByPosition;
 
 public class Produkt {
     public Produkt(String produktNavn, String omProdukt, String produktKategori) {
@@ -6,8 +7,11 @@ public class Produkt {
         this.omProdukt = omProdukt;
         this.produktKategori = produktKategori;
     }
-
-    private String produktNavn, omProdukt;
+    @CsvBindByPosition(position = 0)
+    private String produktNavn;
+    @CsvBindByPosition(position = 1)
+    private String omProdukt;
+    @CsvBindByPosition(position = 2)
     private String produktKategori;
 
     public String getProduktKategori() { return produktKategori; }

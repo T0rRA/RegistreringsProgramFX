@@ -1,30 +1,25 @@
 package org.openjfx.controllers;
+import com.opencsv.bean.CsvToBeanBuilder;
+import org.openjfx.Produkt;
 
-import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
+import java.io.FileReader;
 import java.util.List;
-import java.util.Scanner;
+
 
 public class CSVLesSkriv {
-    //
-    public List<List<String>> lesCSV() throws FileNotFoundException {
-        List<List<String>> innholdFraCSV = new ArrayList<>();
-        try (Scanner scanner = new Scanner(new File("csv.csv"));) {
-            while (scanner.hasNextLine()) {
-                innholdFraCSV.add(parseLinjene(scanner.nextLine()));
-            }
-        }return innholdFraCSV;
-    }
-    //Hver linje er et "produkt" som inneholder produktets navn [0] om[1] og produktKategori [2]
-    private List<String> parseLinjene(String line) {
-        List<String> etProdukt = new ArrayList<String>();
-        try (Scanner scannerHverRad = new Scanner(line)) {
-            scannerHverRad.useDelimiter(";");
-            while (scannerHverRad.hasNext()) {
-                etProdukt.add(scannerHverRad.next());
-            }
+    //returnerer liste av produkter
+    public  List<Produkt> lesCSV(){
+    String filNavn = "CSV.csv";
+
+        List<Produkt> produktListe = null;
+        try {
+            produktListe = new CsvToBeanBuilder(new FileReader(filNavn)).withType(Produkt.class).build().parse();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
         }
-        return etProdukt;
+
+        produktListe.forEach(System.out::println); //fjern senere
+        return produktListe;
     }
 }
