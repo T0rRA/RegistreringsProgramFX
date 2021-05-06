@@ -51,7 +51,7 @@ public class RegistrerProduktController implements  RegistreringsInterface, Init
         File file = new File("Produkter");
 
         try {
-            strat.skrivTilFil(file, p, kategori);
+            strat.leggTil(file, p, kategori);
         } catch (IOException e) {
             e.printStackTrace();
             //Skriv feilmelding
