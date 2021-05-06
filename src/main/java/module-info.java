@@ -1,6 +1,7 @@
 module RegistreringsProgramFX {
     requires javafx.controls;
     requires javafx.fxml;
+    requires opencsv;
 
     opens org.openjfx to javafx.fxml;
     exports org.openjfx;
