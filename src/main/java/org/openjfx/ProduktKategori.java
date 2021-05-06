@@ -7,7 +7,6 @@ public class ProduktKategori implements Serializable
      * ProduktKategori-klassen inneholder
      */
     private static final long serialVersionUID = 1L;
-
     private String kategoriNavn;
     private String omKategori;
 

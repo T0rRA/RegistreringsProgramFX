@@ -3,6 +3,7 @@ package org.openjfx.controllers;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.ChoiceBox;
@@ -14,6 +15,9 @@ import org.openjfx.ProduktKategori;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URL;
+import java.util.List;
+import java.util.ResourceBundle;
 
 class produktStrategi extends strategiVelger {
     public produktStrategi() {
@@ -21,7 +25,13 @@ class produktStrategi extends strategiVelger {
     }
 }
 
-public class RegistrerProduktController implements  RegistreringsInterface{
+class KategoriReaderStrategi extends strategiVelger {
+    public KategoriReaderStrategi() {
+        super(new BinaryStrategy());
+    }
+}
+
+public class RegistrerProduktController implements  RegistreringsInterface, Initializable {
     @FXML
     TextField Navn;
     @FXML
@@ -41,7 +51,7 @@ public class RegistrerProduktController implements  RegistreringsInterface{
         File file = new File("Produkter");
 
         try {
-            strat.skrivTilFil(file, p, kategori);
+            strat.leggTil(file, p, kategori);
         } catch (IOException e) {
             e.printStackTrace();
             //Skriv feilmelding
@@ -57,4 +67,13 @@ public class RegistrerProduktController implements  RegistreringsInterface{
         stage.close();
     }
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        strategiVelger strat = new KategoriReaderStrategi();
+        /*try {
+            //list<ProduktKategori> pk = strat.lesFraFil(new File("Kategori.jobj"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+    }
 }

@@ -8,10 +8,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -66,6 +63,25 @@ public class MainViewController implements Initializable {
         }
     }
 
+    @FXML private void EditProdukt(TableColumn.CellEditEvent<?,?> event){
+        //this is hard
+        Object newVal = event.getNewValue();
+
+        TablePosition<?,?> pos = event.getTablePosition();
+        int row = pos.getRow();
+        int col = pos.getColumn();
+
+    }
+
+    public void initialize() {
+        // TODO
+    }
+
+    @Override
+    public void initialize(URL url, ResourceBundle resources) {
+
+    }
+
     //Hjelpe metode som åpner en scene som en modula.
     public void helpOpenModula(String action) throws MalformedURLException {
         Parent root = null;
@@ -106,14 +122,5 @@ public class MainViewController implements Initializable {
         modulaStage.initModality(Modality.WINDOW_MODAL);
         //Scene switch here
         modulaStage.show();
-    }
-
-    public void initialize() {
-        // TODO
-    }
-
-    @Override
-    public void initialize(URL url, ResourceBundle resources) {
-
     }
 }
