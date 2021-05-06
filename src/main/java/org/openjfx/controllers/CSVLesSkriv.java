@@ -40,7 +40,7 @@ public class CSVLesSkriv extends ArrayList<Produkt> {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-        List<Produkt> personList = new ArrayList<>();
+        List<Produkt> produktList = new ArrayList<>();
         String line = null;
         while (true) {
 
@@ -62,7 +62,7 @@ public class CSVLesSkriv extends ArrayList<Produkt> {
 
 
             // legger objektene i liste
-            personList.add(produktObj);
+            produktList.add(produktObj);
         }
     }
 
