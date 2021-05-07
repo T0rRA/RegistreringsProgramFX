@@ -105,12 +105,51 @@ public class MainViewController implements Initializable {
                     @Override
                     protected List<Produkt> call() throws Exception {
                         try{
+
                             produktTable.setCellValueFactory(new PropertyValueFactory<Produkt, String>("produktNavn"));
                             produktTable.setCellFactory(TextFieldTableCell.forTableColumn());
+                            produktTable.setOnEditCommit(
+                                    (TableColumn.CellEditEvent<Produkt, String> pt) -> {
+                                        Produkt olDprod = ((Produkt) pt.getTableView().getItems().get(
+                                                pt.getTablePosition().getRow()));
+                                        Produkt produkt = ((Produkt) pt.getTableView().getItems().get(
+                                                pt.getTablePosition().getRow())).setProduktNavn(pt.getNewValue());
+                                        CSVLesSkriv csv = new CSVLesSkriv();
+                                        csv.lesCSV();
+                                        csv.fjern(olDprod);
+                                        csv.leggTil(produkt);
+                                    }
+                            );
+
                             beskrivelseTable.setCellValueFactory(new PropertyValueFactory<Produkt, String>("omProdukt"));
                             beskrivelseTable.setCellFactory(TextFieldTableCell.forTableColumn());
+                            beskrivelseTable.setOnEditCommit(
+                                    (TableColumn.CellEditEvent<Produkt, String> pt) -> {
+                                        Produkt olDprod = ((Produkt) pt.getTableView().getItems().get(
+                                                pt.getTablePosition().getRow()));
+                                        Produkt produkt = ((Produkt) pt.getTableView().getItems().get(
+                                                pt.getTablePosition().getRow())).setOmProdukt(pt.getNewValue());
+                                        CSVLesSkriv csv = new CSVLesSkriv();
+                                        csv.lesCSV();
+                                        csv.fjern(olDprod);
+                                        csv.leggTil(produkt);
+                                    }
+                            );
                             kategoriTable.setCellValueFactory(new PropertyValueFactory<Produkt, String>("produktKategori"));
                             kategoriTable.setCellFactory(TextFieldTableCell.forTableColumn());
+                            kategoriTable.setOnEditCommit(
+                                    (TableColumn.CellEditEvent<Produkt, String> pt) -> {
+                                        Produkt olDprod = ((Produkt) pt.getTableView().getItems().get(
+                                                pt.getTablePosition().getRow()));
+                                        Produkt produkt = ((Produkt) pt.getTableView().getItems().get(
+                                                pt.getTablePosition().getRow())).setProduktKategori(pt.getNewValue());
+                                        CSVLesSkriv csv = new CSVLesSkriv();
+                                        csv.lesCSV();
+                                        csv.fjern(olDprod);
+                                        csv.leggTil(produkt);
+                                    }
+                            );
+
                             CSVLesSkriv csvls = new CSVLesSkriv();
                             csvls.lesCSV();
 

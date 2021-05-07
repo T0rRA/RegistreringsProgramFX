@@ -21,21 +21,25 @@ public class Produkt implements Serializable {
 
     public String getProduktKategori() { return produktKategori; }
 
-    public void setProduktKategori(String produktKategori) { this.produktKategori = produktKategori; }
+    public Produkt setProduktKategori(String produktKategori) { this.produktKategori = produktKategori;
+    return this;
+    }
 
     public String getProduktNavn() {
         return produktNavn;
     }
 
-    public void setProduktNavn(String produktNavn) {
+    public Produkt setProduktNavn(String produktNavn) {
         this.produktNavn = produktNavn;
+        return this;
     }
 
     public String getOmProdukt() {
         return omProdukt;
     }
 
-    public void setOmProdukt(String omProdukt) {
+    public Produkt setOmProdukt(String omProdukt) {
         this.omProdukt = omProdukt;
+        return this;
     }
 }
