@@ -33,9 +33,9 @@
                <children>
                   <TableView fx:id="EntireTable" prefHeight="420.0" prefWidth="613.0">
                     <columns>
-                      <TableColumn fx:id="produktTable" onEditCommit="#EditProdukt" prefWidth="144.0" text="Produkt" />
-                      <TableColumn fx:id="kategoriTable" onEditCommit="#EditProdukt" prefWidth="150.0" text="Kategori" />
-                        <TableColumn fx:id="beskrivelseTable" onEditCommit="#EditProdukt" prefWidth="230.0" text="Beskrivelse" />
+                      <TableColumn fx:id="produktTable" prefWidth="144.0" text="Produkt" />
+                      <TableColumn fx:id="kategoriTable" prefWidth="150.0" text="Kategori" />
+                        <TableColumn fx:id="beskrivelseTable" prefWidth="230.0" text="Beskrivelse" />
                         <TableColumn fx:id="FunctionColumn" prefWidth="85.0" />
 
                     </columns>
@@ -45,13 +45,14 @@
         </content>
       </ScrollPane>
       <Button fx:id="Close" layoutX="630.0" layoutY="18.0" mnemonicParsing="false" onAction="#OpenCloseModula" text="Avslutt" />
-      <Label fx:id="errMessage1" layoutX="63.0" layoutY="14.0" prefHeight="25.0" prefWidth="369.0">
+      <Label fx:id="errMessage1" layoutX="135.0" layoutY="14.0" prefHeight="25.0" prefWidth="470.0">
          <font>
             <Font size="14.0" />
          </font></Label>
-      <Label fx:id="Laster" layoutX="63.0" layoutY="12.0" prefHeight="36.0" prefWidth="521.0" textFill="#e40d0d">
+      <Label fx:id="Laster" layoutX="129.0" layoutY="13.0" prefHeight="36.0" prefWidth="483.0" textFill="#e40d0d">
          <font>
             <Font size="23.0" />
          </font></Label>
+      <Button layoutX="63.0" layoutY="18.0" mnemonicParsing="false" onAction="#Refresh" text="Refresh" />
    </children>
 </AnchorPane>

@@ -23,16 +23,7 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws Exception {
-        Produkt produktKategori1 = new Produkt("Spader", "En spade er en spade", "Fff1");
-        Produkt produktKategori2 = new Produkt("Høygaffler", "En høygaffel er god å ha nå som det skal lootes","fff23");
-        Produkt produktKategori3 = new Produkt("kanin", "ARRRG","fff23");
-        CSVLesSkriv testOmDetFungerer3 = new CSVLesSkriv();
 
-        testOmDetFungerer3.leggTil(produktKategori1);
-        testOmDetFungerer3.leggTil(produktKategori2);
-        testOmDetFungerer3.leggTil(produktKategori3);
-
-        testOmDetFungerer3.remove(produktKategori3);
         Parent root = FXMLLoader.load(getClass().getResource("MainView.fxml"));
 
         Scene scene = new Scene(root);

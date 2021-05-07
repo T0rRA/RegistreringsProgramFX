@@ -146,13 +146,44 @@ public class KategoriController implements Initializable {
                         try{
                             beskrivelseTable.setCellValueFactory(new PropertyValueFactory<ProduktKategori, String>("omKategori"));
                             beskrivelseTable.setCellFactory(TextFieldTableCell.forTableColumn());
+                            beskrivelseTable.setOnEditCommit(
+                                    (TableColumn.CellEditEvent<ProduktKategori, String> pt) -> {
+                                        ProduktKategori olDprod = ((ProduktKategori) pt.getTableView().getItems().get(
+                                                pt.getTablePosition().getRow())).setOmKategori(pt.getOldValue());
+                                        ProduktKategori produkt = new ProduktKategori(olDprod.getKategoriNavn(), pt.getNewValue());
+                                        BinaryLesSkriv csv = new BinaryLesSkriv();
+                                        csv.lastInn();
+                                        try {
+                                            csv.fjern(olDprod);
+                                        } catch (Exception e){
+                                            e.printStackTrace();
+                                        }
+                                        csv.leggTil(produkt);
+                                    }
+                            );
                             kategoriTable.setCellValueFactory(new PropertyValueFactory<ProduktKategori, String>("kategoriNavn"));
                             kategoriTable.setCellFactory(TextFieldTableCell.forTableColumn());
+                            kategoriTable.setOnEditCommit(
+                                    (TableColumn.CellEditEvent<ProduktKategori, String> pt) -> {
+                                        ProduktKategori olDprod = ((ProduktKategori) pt.getTableView().getItems().get(
+                                                pt.getTablePosition().getRow())).setKategoriNavn(pt.getOldValue());
+                                        ProduktKategori produkt = new ProduktKategori(pt.getNewValue(), olDprod.getOmKategori());
+
+                                        BinaryLesSkriv csv = new BinaryLesSkriv();
+                                        csv.lastInn();
+                                        try {
+                                            csv.fjern(olDprod);
+                                        } catch (Exception e){
+                                            e.printStackTrace();
+                                        }
+                                        csv.leggTil(produkt);
+                                    }
+                            );
                             BinaryLesSkriv bls = new BinaryLesSkriv();
                             bls.lastInn();
                             Thread.sleep(5000);
                             EntireTable.getItems().setAll(bls);
-                            EntireTable.getColumns().set(2,FunctionColumn);
+
                             return bls;
                         }
                         catch (Exception ie){
@@ -168,6 +199,7 @@ public class KategoriController implements Initializable {
         service.start();
         service.setOnSucceeded((WorkerStateEvent event) -> {
             Laster.setText("");
+            EntireTable.getColumns().set(2,FunctionColumn);
         });
         configs();
     }

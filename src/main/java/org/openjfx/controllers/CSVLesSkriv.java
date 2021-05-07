@@ -93,7 +93,7 @@ public class CSVLesSkriv extends ArrayList<Produkt> {
     //Bruker openCSV til å skrive file. (Mest for å vise at vi kan legge til dependency)
     public void skrivTilCSV() {
         try (
-                Writer writer = Files.newBufferedWriter(Paths.get("csv.csv"));
+                Writer writer = Files.newBufferedWriter(Paths.get("CSV.csv"));
         ) {
             StatefulBeanToCsv<Produkt> beanToCsv = new StatefulBeanToCsvBuilder(writer)
                     .withQuotechar(CSVWriter.NO_QUOTE_CHARACTER)

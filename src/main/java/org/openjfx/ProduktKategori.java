@@ -19,14 +19,16 @@ public class ProduktKategori implements Serializable
     public String getKategoriNavn() {
         return kategoriNavn;
     }
-    public void setKategoriNavn(String kategoriNavn) {
+    public ProduktKategori setKategoriNavn(String kategoriNavn) {
         this.kategoriNavn = kategoriNavn;
+        return this;
     }
     public String getOmKategori() {
         return omKategori;
     }
-    public void setOmKategori(String omKategori) {
+    public ProduktKategori setOmKategori(String omKategori) {
         this.omKategori = omKategori;
+        return this;
     }
 
     @Override

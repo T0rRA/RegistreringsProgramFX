@@ -22,6 +22,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.List;
 import java.util.ResourceBundle;
 
@@ -45,6 +46,16 @@ public class MainViewController implements Initializable {
             errMessage1.setText("Klarte ikke åpne");
             e.printStackTrace();
         }
+    }
+
+    @FXML
+    private void Refresh(ActionEvent event) throws IOException {
+        Stage stage = (Stage) EntireTable.getScene().getWindow();
+        URL url = new File("src/main/resources/org/openjfx/MainView.fxml").toURI().toURL();
+        FXMLLoader loader = new FXMLLoader();
+        Parent root = loader.load(url);
+        Scene scene = new Scene(root);
+        stage.setScene(scene);
     }
 
     @FXML
@@ -78,20 +89,6 @@ public class MainViewController implements Initializable {
         }
     }
 
-    @FXML private void EditProdukt(TableColumn.CellEditEvent<?,?> event){
-        //this is hard
-        try {
-            Object newVal = event.getNewValue();
-
-            TablePosition<?, ?> pos = event.getTablePosition();
-            int row = pos.getRow();
-            int col = pos.getColumn();
-        } catch (Exception e){
-            errMessage1.setTextFill(Color.web("#e40d0d"));
-            errMessage1.setText("Klarer ikke redigere");
-        }
-    }
-
     public void initialize() {
         // TODO
     }
@@ -116,6 +113,7 @@ public class MainViewController implements Initializable {
                                                 pt.getTablePosition().getRow())).setProduktNavn(pt.getNewValue());
                                         CSVLesSkriv csv = new CSVLesSkriv();
                                         csv.lesCSV();
+                                        csv.fjernHeaderKategori();
                                         csv.fjern(olDprod);
                                         csv.leggTil(produkt);
                                     }
@@ -131,6 +129,7 @@ public class MainViewController implements Initializable {
                                                 pt.getTablePosition().getRow())).setOmProdukt(pt.getNewValue());
                                         CSVLesSkriv csv = new CSVLesSkriv();
                                         csv.lesCSV();
+                                        csv.fjernHeaderKategori();
                                         csv.fjern(olDprod);
                                         csv.leggTil(produkt);
                                     }
@@ -140,18 +139,25 @@ public class MainViewController implements Initializable {
                             kategoriTable.setOnEditCommit(
                                     (TableColumn.CellEditEvent<Produkt, String> pt) -> {
                                         Produkt olDprod = ((Produkt) pt.getTableView().getItems().get(
-                                                pt.getTablePosition().getRow()));
-                                        Produkt produkt = ((Produkt) pt.getTableView().getItems().get(
-                                                pt.getTablePosition().getRow())).setProduktKategori(pt.getNewValue());
+                                                pt.getTablePosition().getRow())).setProduktKategori(pt.getOldValue());
+                                        Produkt produkt = new Produkt(olDprod.getProduktNavn(), olDprod.getOmProdukt(), pt.getNewValue());
+                                        System.out.println("HEI HALLO: "+produkt.getProduktNavn() +" " +produkt.getOmProdukt()+produkt.getProduktKategori());
+                                        System.out.println("NESTE ER: "+olDprod.getProduktKategori());
                                         CSVLesSkriv csv = new CSVLesSkriv();
                                         csv.lesCSV();
-                                        csv.fjern(olDprod);
+                                        csv.fjernHeaderKategori();
+                                        try {
+                                            csv.fjern(olDprod);
+                                        } catch (Exception e){
+                                            e.printStackTrace();
+                                        }
                                         csv.leggTil(produkt);
                                     }
                             );
 
                             CSVLesSkriv csvls = new CSVLesSkriv();
                             csvls.lesCSV();
+                            csvls.fjernHeaderKategori();
 
                             Thread.sleep(5000);
                             EntireTable.getItems().addAll(csvls);
