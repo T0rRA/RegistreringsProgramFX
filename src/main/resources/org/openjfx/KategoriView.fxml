@@ -32,8 +32,9 @@
                         <children>
                             <TableView fx:id="EntireTable" prefHeight="353.0" prefWidth="525.0">
                                 <columns>
-                                    <TableColumn fx:id="kategoriTable" onEditCommit="#EditKategori" prefWidth="207.0" text="Kategori navn" />
-                                    <TableColumn fx:id="beskrivelseTable" onEditCommit="#EditKategori" prefWidth="317.0" text="Beskrivelse" />
+                                    <TableColumn fx:id="kategoriTable" onEditCommit="#EditKategori" prefWidth="163.0" text="Kategori navn" />
+                                    <TableColumn fx:id="beskrivelseTable" onEditCommit="#EditKategori" prefWidth="263.0" text="Beskrivelse" />
+                        <TableColumn fx:id="FunctionColumn" prefWidth="107.0" />
 
                                 </columns>
                             </TableView>
