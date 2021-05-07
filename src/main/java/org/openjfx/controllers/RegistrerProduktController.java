@@ -53,9 +53,10 @@ public class RegistrerProduktController implements  RegistreringsInterface, Init
             Produkt p = new Produkt(navn, beskrivelse, kategoriNavn);
 
             CSVLesSkriv csvls = new CSVLesSkriv();
-            List<Produkt> produkter = csvls.lesCSV();
-            produkter.add(p);
-            csvls.skrivTilCSV(produkter);
+            csvls.lesCSV();
+            System.out.println(p.getProduktKategori()+ " "+p.getOmProdukt()+" "+p.getProduktNavn());
+            csvls.leggTil(p);
+            csvls.skrivTilCSV();
 
             Stage stage = (Stage) KategoriDropdown.getScene().getWindow();
             stage.close();

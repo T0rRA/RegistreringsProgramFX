@@ -1,24 +1,32 @@
 package org.openjfx.controllers;
 
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.chart.PieChart;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.openjfx.Produkt;
 import org.openjfx.ProduktKategori;
 
+import javax.security.auth.callback.Callback;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -31,6 +39,7 @@ public class KategoriController implements Initializable {
     private TableView EntireTable;
     @FXML private TableColumn<ProduktKategori,String> kategoriTable;
     @FXML private TableColumn<ProduktKategori,String> beskrivelseTable;
+    @FXML private TableColumn<ProduktKategori, Boolean> FunctionColumn;
     @FXML private Button BackToProduct;
     @FXML private Label errMessage1;
     @FXML private Label Laster;
@@ -58,6 +67,7 @@ public class KategoriController implements Initializable {
     @FXML
     private void EditKategori(TableColumn.CellEditEvent<?,?> event){
         try{
+            Object oldVal = event.getOldValue();
             Object newVal = event.getNewValue();
             TablePosition<?,?> pos = event.getTablePosition();
             System.out.println("THE COLUMN IS "+pos+" and val is: " + newVal.toString());
@@ -142,7 +152,7 @@ public class KategoriController implements Initializable {
                             bls.lastInn();
                             Thread.sleep(5000);
                             EntireTable.getItems().setAll(bls);
-
+                            EntireTable.getColumns().set(2,FunctionColumn);
                             return bls;
                         }
                         catch (Exception ie){
@@ -165,8 +175,45 @@ public class KategoriController implements Initializable {
     private void configs(){
         EntireTable.setEditable(true);
         EntireTable.getSelectionModel().cellSelectionEnabledProperty().set(true);
+        FunctionColumn.setSortable(false);
+
+
+        FunctionColumn.setCellValueFactory(new javafx.util.Callback<TableColumn.CellDataFeatures<ProduktKategori, Boolean>, ObservableValue<Boolean>>() {
+            @Override
+            public ObservableValue<Boolean> call(TableColumn.CellDataFeatures<ProduktKategori, Boolean> pkFeatures) {
+                return new SimpleBooleanProperty(pkFeatures.getValue() != null);
+            }
+        });
+
+        FunctionColumn.setCellFactory(new javafx.util.Callback<TableColumn<ProduktKategori, Boolean>, TableCell<ProduktKategori, Boolean>>() {
+            @Override
+            public TableCell<ProduktKategori,Boolean> call(TableColumn<ProduktKategori, Boolean> produktKategoriBooleanCellDataFeatures) {
+                return new DeleteButton(EntireTable);
+            }
+        });
+
+
+
     }
 
+    private class DeleteButton extends TableCell<ProduktKategori, Boolean>{
+        final Button deleteButton = new Button("Delete");
+        final StackPane paddedButton = new StackPane();
+
+        DeleteButton(TableView t){
+            paddedButton.setPadding(new Insets(3));
+            paddedButton.getChildren().add(deleteButton);
+            deleteButton.setOnAction(new EventHandler<ActionEvent>() {
+                @Override
+                public void handle(ActionEvent event) {
+                    BinaryLesSkriv bls = new BinaryLesSkriv();
+                    int rad = t.getSelectionModel().getSelectedIndex();
+                    Object selected  = t.getItems().get(rad);
+                    System.out.println(selected.toString());
+                }
+            });
+        }
+    }
 
 }
 
