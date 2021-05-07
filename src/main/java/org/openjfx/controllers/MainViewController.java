@@ -112,12 +112,12 @@ public class MainViewController implements Initializable {
                             kategoriTable.setCellValueFactory(new PropertyValueFactory<Produkt, String>("produktKategori"));
                             kategoriTable.setCellFactory(TextFieldTableCell.forTableColumn());
                             CSVLesSkriv csvls = new CSVLesSkriv();
-                            List<Produkt> produkts= csvls.lesCSV();
+                            csvls.lesCSV();
 
                             Thread.sleep(5000);
-                            EntireTable.getItems().addAll(produkts);
+                            EntireTable.getItems().addAll(csvls);
                             Thread.sleep(1000);
-                            return produkts;
+                            return csvls;
 
                         }
                         catch (Exception ie){
