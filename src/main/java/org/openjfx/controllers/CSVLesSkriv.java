@@ -63,6 +63,9 @@ public class CSVLesSkriv extends ArrayList<Produkt> {
 
             // legger objektene i liste
             produktList.add(produktObj);
+            //leser inn
+            this.clear();
+            this.addAll(produktList);
         }
     }
 
