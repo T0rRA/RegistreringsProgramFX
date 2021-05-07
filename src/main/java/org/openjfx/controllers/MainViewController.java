@@ -2,6 +2,7 @@ package org.openjfx.controllers;
 
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -9,6 +10,9 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.control.cell.TextFieldTableCell;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.openjfx.Produkt;
@@ -25,10 +29,11 @@ public class MainViewController implements Initializable {
 
     @FXML private TableView EntireTable;
     @FXML private TableColumn<Produkt, String> produktTable;
-    @FXML private TableColumn<Produkt, ProduktKategori> kategoriTable;
+    @FXML private TableColumn<Produkt, String> kategoriTable;
     @FXML private TableColumn<Produkt, String> beskrivelseTable;
     @FXML private Button RegistrerProdukt;
     @FXML private Label errMessage1;
+    @FXML private Label Laster;
 
 
     @FXML
@@ -36,6 +41,8 @@ public class MainViewController implements Initializable {
         try {
             helpOpenModula("RegistrerProdukt");
         } catch (MalformedURLException e) {
+            errMessage1.setTextFill(Color.web("#e40d0d"));
+            errMessage1.setText("Klarte ikke åpne");
             e.printStackTrace();
         }
     }
@@ -46,6 +53,7 @@ public class MainViewController implements Initializable {
             helpOpenModula("RegistrerKategori");
         } catch (MalformedURLException e) {
             e.printStackTrace();
+            errMessage1.setTextFill(Color.web("#e40d0d"));
             errMessage1.setText("Kan ikke åpne");
         }
     }
@@ -55,6 +63,7 @@ public class MainViewController implements Initializable {
             helpOpenModula("KategoriView");
         }catch (MalformedURLException e){
             e.printStackTrace();
+            errMessage1.setTextFill(Color.web("#e40d0d"));
             errMessage1.setText("Kan ikke åpne");
         }
     }
@@ -64,6 +73,7 @@ public class MainViewController implements Initializable {
             helpOpenModula("CloseProgram");
         } catch (MalformedURLException e) {
             e.printStackTrace();
+            errMessage1.setTextFill(Color.web("#e40d0d"));
             errMessage1.setText("Kan ikke åpne");
         }
     }
@@ -77,6 +87,7 @@ public class MainViewController implements Initializable {
             int row = pos.getRow();
             int col = pos.getColumn();
         } catch (Exception e){
+            errMessage1.setTextFill(Color.web("#e40d0d"));
             errMessage1.setText("Klarer ikke redigere");
         }
     }
@@ -87,11 +98,44 @@ public class MainViewController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resources) {
-        /*produktTable.setCellValueFactory(new PropertyValueFactory<Produkt, String>("produktNavn"));
-        beskrivelseTable.setCellValueFactory(new PropertyValueFactory<Produkt, String>("omProdukt"));
-        kategoriTable.setCellValueFactory(new PropertyValueFactory<Produkt, ProduktKategori>("produktKategori"));
+        Service<List<Produkt>> service = new Service<List<Produkt>>() {
+            @Override
+            protected Task<List<Produkt>> createTask() {
+                return new Task<List<Produkt>>() {
+                    @Override
+                    protected List<Produkt> call() throws Exception {
+                        try{
+                            produktTable.setCellValueFactory(new PropertyValueFactory<Produkt, String>("produktNavn"));
+                            produktTable.setCellFactory(TextFieldTableCell.forTableColumn());
+                            beskrivelseTable.setCellValueFactory(new PropertyValueFactory<Produkt, String>("omProdukt"));
+                            beskrivelseTable.setCellFactory(TextFieldTableCell.forTableColumn());
+                            kategoriTable.setCellValueFactory(new PropertyValueFactory<Produkt, String>("produktKategori"));
+                            kategoriTable.setCellFactory(TextFieldTableCell.forTableColumn());
+                            CSVLesSkriv csvls = new CSVLesSkriv();
+                            List<Produkt> produkts= csvls.lesCSV();
 
-        EntireTable.getItems().setAll(parseProdukter());*/
+                            Thread.sleep(5000);
+                            EntireTable.getItems().addAll(produkts);
+                            Thread.sleep(1000);
+                            return produkts;
+
+                        }
+                        catch (Exception ie){
+                            ie.printStackTrace();
+                            errMessage1.setTextFill(Color.web("#e40d0d"));
+                            errMessage1.setText("Klarte ikke laste inn produkter");
+                            return null;
+                        }
+                    }
+                };
+            }
+        };
+        Laster.setText("Laster nå inn...");
+        service.setOnSucceeded((WorkerStateEvent event) -> {
+            Laster.setText("");
+        });
+        configs();
+        service.start();
     }
 
     //Hjelpe metode som åpner en scene som en modula.
@@ -138,25 +182,10 @@ public class MainViewController implements Initializable {
         //Scene switch here
         modulaStage.show();
     }
-}
-
-class ProduktPopulator extends Service<List<Produkt>> {
-
-    @Override
-    protected Task<List<Produkt>> createTask() {
-        return new Task<List<Produkt>>(){
-
-            @Override
-            protected List<Produkt> call() throws Exception {
-                try{
-
-                }
-                catch (Exception ie){
-
-                }
-                return null;
-            }
-        };
+    private void configs(){
+        EntireTable.setEditable(true);
+        EntireTable.getSelectionModel().cellSelectionEnabledProperty().set(true);
     }
 }
+
 
