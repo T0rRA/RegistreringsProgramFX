@@ -28,5 +28,6 @@ public class CloseProgramController {
     private void CloseModula(ActionEvent event){
         Stage stage = (Stage) AvbrytKnapp.getScene().getWindow();
         stage.close();
+
     }
 }

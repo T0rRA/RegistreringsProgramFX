@@ -1,12 +1,16 @@
 package org.openjfx.controllers;
 
+import javafx.application.Platform;
+import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+import javafx.concurrent.WorkerStateEvent;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.control.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import org.openjfx.Produkt;
 import org.openjfx.ProduktKategori;
@@ -30,6 +34,8 @@ public class RegistrerProduktController implements  RegistreringsInterface, Init
     Button CloseButton;
     @FXML
     Label errMessage1;
+    @FXML
+    Label Laster;
 
     @FXML
     private void Submit(ActionEvent event) {
@@ -39,7 +45,8 @@ public class RegistrerProduktController implements  RegistreringsInterface, Init
             ProduktKategori kategori = KategoriDropdown.getValue();
             String kategoriNavn = kategori.getKategoriNavn();
 
-            if(kategoriNavn.equals(null) || navn.equals(null) || beskrivelse.equals(null)){
+            if (kategoriNavn.equals(null) || navn.equals(null) || beskrivelse.equals(null)) {
+                errMessage1.setTextFill(Color.web("#e40d0d"));
                 errMessage1.setText("Felt mangler");
                 return;
             }
@@ -52,43 +59,50 @@ public class RegistrerProduktController implements  RegistreringsInterface, Init
 
             Stage stage = (Stage) KategoriDropdown.getScene().getWindow();
             stage.close();
-        }
-        catch(Exception e){
+        } catch (Exception e) {
 
         }
     }
+
     @FXML
-    private void CloseModula(ActionEvent event){
+    private void CloseModula(ActionEvent event) {
         Stage stage = (Stage) CloseButton.getScene().getWindow();
         stage.close();
     }
 
-   @Override
-    public void initialize(URL url, ResourceBundle resourceBundle) {
-        KategoriChoicePopulator kcp = new KategoriChoicePopulator();
-       try {
-           List<ProduktKategori> kategorier = kcp.call();
-           KategoriDropdown.getItems().addAll(kategorier);
-       } catch (Exception e) {
-           e.printStackTrace();
-           return;
-       }
-
-    }
-}
-
-class KategoriChoicePopulator extends Task<List<ProduktKategori>> {
-
     @Override
-    protected List<ProduktKategori> call() throws Exception {
-        try{
-            BinaryLesSkriv bls = new BinaryLesSkriv();
-            bls.lastInn();
-            Thread.sleep(5000);
-            return bls;
-        }
-        catch (Exception ie){
-            return null;
-        }
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        Laster.setText("Leser inn kategorier");
+        System.out.println("Firste thread: "+Thread.currentThread());
+        Service<Void> service = new Service<Void>() {
+            @Override
+            protected Task<Void> createTask() {
+                return new Task<Void>() {
+                    @Override
+                    protected Void call() throws Exception {
+                        try{
+                            BinaryLesSkriv bls = new BinaryLesSkriv();
+                            bls.lastInn();
+                            Thread.sleep(2000);
+                            System.out.println("Sleepy thread: "+Thread.currentThread());
+                            KategoriDropdown.getItems().addAll(bls);
+                            Thread.sleep(1000);
+
+
+                            return null;
+                        }
+                        catch (Exception ie){
+                            ie.printStackTrace();
+                            errMessage1.setText("Noe gikk galt...");
+                            return null;
+                        }
+                    }
+                };
+            }
+        };
+        service.setOnSucceeded((WorkerStateEvent event) ->{
+            Laster.setText("Ferdig");
+        });
+        service.start();
     }
 }
